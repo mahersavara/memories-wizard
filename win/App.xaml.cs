@@ -1,6 +1,8 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.IO;
+using System;
 
 namespace MemoriesWizard;
 
@@ -17,7 +19,9 @@ public partial class App : Application
 
     private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
     {
-        MessageBox.Show($"A critical error occurred: {e.Exception.Message}\n\nStack Trace: {e.Exception.StackTrace}", "Critical Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "crash.log");
+        File.WriteAllText(logPath, $"Error: {e.Exception.Message}\nStack: {e.Exception.StackTrace}");
+        MessageBox.Show($"A critical error occurred. Log saved to: {logPath}\n\nError: {e.Exception.Message}", "Critical Error", MessageBoxButton.OK, MessageBoxImage.Error);
         e.Handled = true;
     }
 }
