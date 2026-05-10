@@ -1,27 +1,27 @@
 # Git Ignore for Memories Wizard
 
-# .NET / Windows
-[Bb]in/
-[Oo]bj/
-*.user
-*.userosscache
-*.sln.docstates
+# General
+**/[Bb]in/
+**/[Oo]bj/
 .vs/
 .vscode/
-
-# macOS
 .DS_Store
-*.xcworkspace
-xcuserdata/
-DerivedData/
-*.moved-aside
-*.xcuserstate
 
-# Publishing
-Publish/Windows/*
-!Publish/Windows/MemoriesWizard.exe
+# Windows Source
+win/*.user
+win/*.userosscache
+win/*.sln.docstates
 
-# Testing
-Sandbox/
-InternalTests/bin/
-InternalTests/obj/
+# macOS Source
+macos/**/*.xcworkspace
+macos/**/xcuserdata/
+macos/**/DerivedData/
+macos/**/*.moved-aside
+macos/**/*.xcuserstate
+
+# Temporary / Build Artifacts
+tmp/Publish/Windows/*
+!tmp/Publish/Windows/MemoriesWizard.exe
+tmp/Sandbox/
+tmp/InternalTests/[Bb]in/
+tmp/InternalTests/[Oo]bj/
