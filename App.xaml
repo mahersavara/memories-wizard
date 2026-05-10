@@ -1,0 +1,77 @@
+﻿<Application x:Class="MemoriesWizard.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MemoriesWizard"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- Apple/iOS inspired Materials -->
+        <Color x:Key="MaterialGlassBase">#99FAF9F6</Color> <!-- Parchment with transparency -->
+        <Color x:Key="MaterialGlassBorderLight">#4DFFFFFF</Color> <!-- 1px inner highlight -->
+        <Color x:Key="MaterialGlassBorderDark">#1A000000</Color> <!-- Subtle edge definition -->
+        
+        <Color x:Key="ColorDeepForest">#2D3A2D</Color>
+        <Color x:Key="ColorSageGreen">#B2AC88</Color>
+        <Color x:Key="ColorAccentGold">#D4AF37</Color>
+        <Color x:Key="ColorVibrantGreen">#4CAF50</Color>
+        <Color x:Key="ColorSoftWhite">#F0F0F0</Color>
+
+        <SolidColorBrush x:Key="BrushGlassBase" Color="{StaticResource MaterialGlassBase}"/>
+        <SolidColorBrush x:Key="BrushDeepForest" Color="{StaticResource ColorDeepForest}"/>
+        <SolidColorBrush x:Key="BrushSageGreen" Color="{StaticResource ColorSageGreen}"/>
+        <SolidColorBrush x:Key="BrushAccentGold" Color="{StaticResource ColorAccentGold}"/>
+        
+        <!-- Glass Card Style -->
+        <Style x:Key="GlassCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BrushGlassBase}"/>
+            <Setter Property="CornerRadius" Value="24"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="{StaticResource MaterialGlassBorderLight}" Offset="0.0"/>
+                        <GradientStop Color="{StaticResource MaterialGlassBorderDark}" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Nature Button Style (iOS-like) -->
+        <Style x:Key="NatureButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource BrushDeepForest}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="12" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3D4F3D"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontFamily" Value="Georgia"/>
+            <Setter Property="Foreground" Value="{StaticResource BrushDeepForest}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="4" ShadowDepth="1" Opacity="0.1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>
