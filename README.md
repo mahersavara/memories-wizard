@@ -12,5 +12,8 @@ The project has been organized into the following structure:
 - [**docs/**](./docs) - Documentation and assets
 - [**tmp/**](./tmp) - Temporary files and internal tests
 
+## 👥 Contributors
+Proudly built by **mahersavara**, **Linh Khuat (Su)**, and **vanduc2514**.
+
 **Full documentation:** [docs/README.md](./docs/README.md)
 **Download Windows Executable:** [tmp/Publish/Windows/MemoriesWizard.exe](./tmp/Publish/Windows/MemoriesWizard.exe)

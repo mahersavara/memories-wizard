@@ -61,5 +61,11 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 - Xcode 15+
 - macOS Sonoma+
 
+## 👥 Contributors
+
+- **mahersavara** - Project Owner
+- **Linh Khuat (Su)** - Collaborator
+- **vanduc2514** - Collaborator
+
 ## 📄 License
 MIT License. Created with ❤️ for organizing memories.
