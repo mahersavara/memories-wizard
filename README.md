@@ -5,6 +5,8 @@ High-performance, Tinder-style media sorter for Windows and macOS.
 ## 🗂️ Project Reorganized
 The project has been organized into the following structure:
 
+![Memories Wizard Preview](docs/screenshot.png)
+
 - [**win/**](./win) - Windows source code (C# WPF)
 - [**macos/**](./macos) - macOS source code (SwiftUI)
 - [**docs/**](./docs) - Documentation and assets

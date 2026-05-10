@@ -19,6 +19,9 @@
   - **Complete Now:** Finish your sorting session early and view your results.
 - **🛡️ Robustness:** Built-in retry mechanism to handle file locks from video engines.
 
+## 🖼️ Preview
+![Memories Wizard Screenshot](screenshot.png)
+
 ## 🗂️ Project Structure
 
 - `win/`: Windows source code (C# WPF).
