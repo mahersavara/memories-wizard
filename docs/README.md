@@ -64,7 +64,7 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 ## 👥 Contributors
 
 - **Linh Khuat (Su)** (@mahersavara) - Idea & Windows Platform
-- **vanduc2514** - macOS Platform
+- **vanduc2514** - macOS Platform, Advisor & Brainstormer
 
 ## 📄 License
 MIT License. Created with ❤️ for organizing memories.
