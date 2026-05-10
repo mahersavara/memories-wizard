@@ -24,12 +24,64 @@ public partial class MainWindow : Window
     private bool _isDragging = false;
     private const double SwipeThreshold = 150;
 
+    private bool _isSeeking = false;
+    private System.Windows.Threading.DispatcherTimer _timer;
+
     public MainWindow()
     {
         InitializeComponent();
         this.KeyDown += MainWindow_KeyDown;
         VidPreview.MediaEnded += (s, e) => VidPreview.Position = TimeSpan.Zero;
         VidPreview.MediaFailed += VidPreview_MediaFailed;
+        VidPreview.MediaOpened += VidPreview_MediaOpened;
+
+        _timer = new System.Windows.Threading.DispatcherTimer();
+        _timer.Interval = TimeSpan.FromMilliseconds(200);
+        _timer.Tick += Timer_Tick;
+    }
+
+    private void VidPreview_MediaOpened(object sender, RoutedEventArgs e)
+    {
+        if (VidPreview.NaturalDuration.HasTimeSpan)
+        {
+            SldSeek.Maximum = VidPreview.NaturalDuration.TimeSpan.TotalSeconds;
+            _timer.Start();
+        }
+    }
+
+    private void Timer_Tick(object? sender, EventArgs e)
+    {
+        if (!_isSeeking && VidPreview.NaturalDuration.HasTimeSpan)
+        {
+            SldSeek.Value = VidPreview.Position.TotalSeconds;
+            TxtVidTime.Text = $"{VidPreview.Position:mm\\:ss} / {VidPreview.NaturalDuration.TimeSpan:mm\\:ss}";
+        }
+    }
+
+    private void SldSeek_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e) => _isSeeking = true;
+    private void SldSeek_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+    {
+        _isSeeking = false;
+        VidPreview.Position = TimeSpan.FromSeconds(SldSeek.Value);
+    }
+    private void SldSeek_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (_isSeeking) VidPreview.Position = TimeSpan.FromSeconds(SldSeek.Value);
+    }
+
+    private void SldVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (VidPreview != null) VidPreview.Volume = SldVolume.Value;
+    }
+
+    private void CmbSpeed_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (VidPreview == null || CmbSpeed.SelectedItem == null) return;
+        string val = ((System.Windows.Controls.ComboBoxItem)CmbSpeed.SelectedItem).Content.ToString()!.Replace("x", "");
+        if (double.TryParse(val, out double speed))
+        {
+            VidPreview.SpeedRatio = speed;
+        }
     }
 
     private void VidPreview_MediaFailed(object? sender, ExceptionRoutedEventArgs e)
@@ -163,9 +215,12 @@ public partial class MainWindow : Window
             VidPreview.Visibility = Visibility.Visible;
             VidPreview.Source = new Uri(Path.GetFullPath(file));
             VidPreview.Play();
+            VidControls.Visibility = Visibility.Visible;
         }
         else
         {
+            _timer.Stop();
+            VidControls.Visibility = Visibility.Collapsed;
             VidPreview.Visibility = Visibility.Collapsed;
             VidPreview.Stop();
             VidPreview.Source = null;

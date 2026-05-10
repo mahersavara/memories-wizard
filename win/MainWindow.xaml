@@ -109,7 +109,51 @@
                             </Border.Effect>
                             <Grid>
                                 <Image x:Name="ImgPreview" Stretch="Uniform"/>
-                                <MediaElement x:Name="VidPreview" Stretch="Uniform" LoadedBehavior="Manual" UnloadedBehavior="Stop" ScrubbingEnabled="True" IsMuted="True"/>
+                                <MediaElement x:Name="VidPreview" Stretch="Uniform" LoadedBehavior="Manual" UnloadedBehavior="Stop" ScrubbingEnabled="True" IsMuted="False" Volume="0.5"/>
+                                
+                                <!-- Video Controls Overlay -->
+                                <Border x:Name="VidControls" VerticalAlignment="Bottom" Background="#AA000000" CornerRadius="0,0,20,20" Padding="15,10" Visibility="Collapsed">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <!-- Seek Slider -->
+                                        <Slider x:Name="SldSeek" Grid.Row="0" Margin="0,0,0,5" Minimum="0" Maximum="1" 
+                                                Thumb.DragStarted="SldSeek_DragStarted" Thumb.DragCompleted="SldSeek_DragCompleted" 
+                                                ValueChanged="SldSeek_ValueChanged" Cursor="Hand"/>
+                                        
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <!-- Time Display -->
+                                            <TextBlock x:Name="TxtVidTime" Text="00:00 / 00:00" Foreground="White" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                            
+                                            <!-- Volume Icon/Slider -->
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <TextBlock Text="🔈" Foreground="White" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                                <Slider x:Name="SldVolume" Width="80" Minimum="0" Maximum="1" Value="0.5" ValueChanged="SldVolume_ValueChanged" VerticalAlignment="Center"/>
+                                            </StackPanel>
+
+                                            <!-- Speed Selector -->
+                                            <ComboBox Grid.Column="3" x:Name="CmbSpeed" Width="70" SelectedIndex="2" SelectionChanged="CmbSpeed_SelectionChanged" 
+                                                      Background="Transparent" Foreground="Black" FontSize="11">
+                                                <ComboBoxItem Content="0.5x"/>
+                                                <ComboBoxItem Content="0.75x"/>
+                                                <ComboBoxItem Content="1.0x"/>
+                                                <ComboBoxItem Content="1.25x"/>
+                                                <ComboBoxItem Content="1.5x"/>
+                                                <ComboBoxItem Content="2.0x"/>
+                                            </ComboBox>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
                             </Grid>
                             <Border.RenderTransform>
                                 <TransformGroup>
