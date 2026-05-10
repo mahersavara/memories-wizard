@@ -46,6 +46,17 @@ public partial class MainWindow : Window
         {
             SldSeek.Maximum = VidPreview.NaturalDuration.TimeSpan.TotalSeconds;
             _timer.Start();
+            ApplyCurrentSpeed();
+        }
+    }
+
+    private void ApplyCurrentSpeed()
+    {
+        if (VidPreview == null || CmbSpeed == null || CmbSpeed.SelectedItem == null) return;
+        string val = ((System.Windows.Controls.ComboBoxItem)CmbSpeed.SelectedItem).Content.ToString()!.Replace("x", "");
+        if (double.TryParse(val, System.Globalization.CultureInfo.InvariantCulture, out double speed))
+        {
+            VidPreview.SpeedRatio = speed;
         }
     }
 
@@ -76,12 +87,7 @@ public partial class MainWindow : Window
 
     private void CmbSpeed_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-        if (VidPreview == null || CmbSpeed.SelectedItem == null) return;
-        string val = ((System.Windows.Controls.ComboBoxItem)CmbSpeed.SelectedItem).Content.ToString()!.Replace("x", "");
-        if (double.TryParse(val, out double speed))
-        {
-            VidPreview.SpeedRatio = speed;
-        }
+        ApplyCurrentSpeed();
     }
 
     private void VidPreview_MediaFailed(object? sender, ExceptionRoutedEventArgs e)
