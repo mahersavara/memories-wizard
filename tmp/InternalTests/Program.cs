@@ -29,6 +29,9 @@ class Program
             File.WriteAllText(Path.Combine(sourcePath, "valid.MP4"), "data");
             File.WriteAllText(Path.Combine(sourcePath, "invalid.txt"), "data");
             
+            // Hidden/Metadata file
+            File.WriteAllText(Path.Combine(sourcePath, "._metadata.jpg"), "data");
+
             // Subfolder file
             string subDirPath = Path.Combine(sourcePath, "SubDir");
             Directory.CreateDirectory(subDirPath);
@@ -37,7 +40,9 @@ class Program
             // Test Recursive ON
             Console.WriteLine("   - Testing Recursive ON (Checkbox checked)");
             var filesRec = service.GetMediaFiles(sourcePath, true);
+            // Should be 3 (valid.jpg, valid.MP4, sub.jpg). Metadata should be ignored.
             Assert(filesRec.Count == 3, $"Should find 3 files (including subfolder), found {filesRec.Count}");
+            Assert(!filesRec.Any(f => Path.GetFileName(f).StartsWith(".")), "Hidden metadata file was NOT ignored!");
             
             // Test Recursive OFF
             Console.WriteLine("   - Testing Recursive OFF (Checkbox unchecked)");
@@ -145,7 +150,10 @@ public class MediaService
     {
         var option = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
         return Directory.EnumerateFiles(sourcePath, "*.*", option)
-            .Where(f => MediaExtensions.Contains(Path.GetExtension(f).ToLower()))
+            .Where(f => {
+                string fileName = Path.GetFileName(f);
+                return !fileName.StartsWith(".") && MediaExtensions.Contains(Path.GetExtension(f).ToLower());
+            })
             .ToList();
     }
 

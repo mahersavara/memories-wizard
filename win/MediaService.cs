@@ -23,7 +23,10 @@ public class MediaService : IMediaService
 
         var option = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
         return Directory.EnumerateFiles(sourcePath, "*.*", option)
-            .Where(f => MediaExtensions.Contains(Path.GetExtension(f).ToLower()))
+            .Where(f => {
+                string fileName = Path.GetFileName(f);
+                return !fileName.StartsWith(".") && MediaExtensions.Contains(Path.GetExtension(f).ToLower());
+            })
             .ToList();
     }
 
