@@ -44,9 +44,9 @@
                 <Grid Grid.Row="0" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Background="Transparent" Height="50">
                     <TextBlock Text="Memories Wizard" Foreground="{StaticResource BrushDeepForest}" VerticalAlignment="Center" Margin="25,0,0,0" FontSize="14" FontWeight="SemiBold" Opacity="0.7"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,15,0">
-                        <Button Content="—" Click="Minimize_Click" Style="{StaticResource NatureButtonStyle}" Background="Transparent" Foreground="{StaticResource BrushDeepForest}" FontSize="18" Padding="15,0"/>
-                        <Button x:Name="BtnMaximize" Content="▢" Click="Maximize_Click" Style="{StaticResource NatureButtonStyle}" Background="Transparent" Foreground="{StaticResource BrushDeepForest}" FontSize="16" Padding="15,0"/>
-                        <Button Content="✕" Click="Close_Click" Style="{StaticResource NatureButtonStyle}" Background="Transparent" Foreground="{StaticResource BrushDeepForest}" FontSize="18" Padding="15,0"/>
+                        <Button Content="—" Click="Minimize_Click" Style="{StaticResource NatureButtonStyle}" Background="Transparent" Foreground="{StaticResource BrushDeepForest}" FontSize="18" Padding="15,0" WindowChrome.IsHitTestVisibleInChrome="True"/>
+                        <Button x:Name="BtnMaximize" Content="▢" Click="Maximize_Click" Style="{StaticResource NatureButtonStyle}" Background="Transparent" Foreground="{StaticResource BrushDeepForest}" FontSize="16" Padding="15,0" WindowChrome.IsHitTestVisibleInChrome="True"/>
+                        <Button Content="✕" Click="Close_Click" Style="{StaticResource NatureButtonStyle}" Background="Transparent" Foreground="{StaticResource BrushDeepForest}" FontSize="18" Padding="15,0" WindowChrome.IsHitTestVisibleInChrome="True"/>
                     </StackPanel>
                 </Grid>
 
