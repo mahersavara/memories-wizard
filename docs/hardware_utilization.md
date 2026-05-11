@@ -20,7 +20,8 @@
   - `MediaPlayer`
 - Let **Media Foundation** handle codec selection and hardware acceleration.
 - Treat **H.264 MP4/MOV** playback as the baseline path.
-- Keep one active playback surface unless next-item open latency stays above **200 ms** or swipe transitions visibly stutter during normal local playback.
+- Keep one active playback surface by default.
+- Consider two playback surfaces only if next-item open latency consistently exceeds **200 ms** or swipe transitions visibly stutter during normal local playback.
 
 ### Image Decode and Rendering
 - Use **Windows Imaging Component (WIC)** through WPF imaging APIs.
@@ -29,7 +30,7 @@
   - `BitmapDecoder`
   - `BitmapSource`
 - Set `DecodePixelWidth` or `DecodePixelHeight` for preview-sized rendering.
-- Use `BitmapCacheOption.OnLoad` when the displayed file may be moved, deleted, or released immediately after loading.
+- Use `BitmapCacheOption.OnLoad` when the displayed file may be moved, deleted, or released immediately after loading so the image is fully decoded into memory and does not hold the file open.
 
 ### UI Animation
 - Use WPF transform-based animation.
@@ -62,10 +63,11 @@
   - `AVPlayer`
   - `AVPlayerItem`
   - `AVPlayerLayer`
-  - `VideoPlayer` for simple playback without custom controls, preloading, or playback-surface management
+  - `VideoPlayer` for basic playback UI without frame-level control, preloading, or multi-instance playback management
 - Let **AVFoundation** manage hardware decode automatically.
 - Treat **H.264 MP4/MOV** playback as the baseline path.
-- Keep one active player unless next-item open latency stays above **200 ms** or swipe transitions visibly stutter during normal local playback.
+- Keep one active player by default.
+- Consider a preloaded second player only if next-item open latency consistently exceeds **200 ms** or swipe transitions visibly stutter during normal local playback.
 
 ### Image Decode and Rendering
 - Use **Image I/O** for image decode.
