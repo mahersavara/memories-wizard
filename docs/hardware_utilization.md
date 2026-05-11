@@ -29,7 +29,8 @@
   - `BitmapDecoder`
   - `BitmapSource`
 - Set `DecodePixelWidth` or `DecodePixelHeight` for preview-sized rendering.
-- Use `BitmapCacheOption.OnLoad` when the displayed file may be moved, deleted, or released immediately after loading so the image is fully decoded into memory, avoids file locks, and accepts the higher memory cost of the decoded bitmap.
+- Use `BitmapCacheOption.OnLoad` when the displayed file may be moved, deleted, or released immediately after loading.
+- This fully decodes the image into memory, avoids file locks, and trades disk dependency for higher bitmap memory usage.
 
 ### UI Animation
 - Use WPF transform-based animation.
@@ -62,7 +63,7 @@
   - `AVPlayer`
   - `AVPlayerItem`
   - `AVPlayerLayer`
-  - SwiftUI `VideoPlayer` for basic playback UI without frame-level control, preloading, or multi-instance playback management
+  - SwiftUI `VideoPlayer` for basic playback UI without frame-level control, preloading, or multi-instance playback management.
 - Let **AVFoundation** manage hardware decode automatically.
 - Treat **H.264 MP4/MOV** playback as the baseline path.
 - Keep one active player by default.
@@ -104,7 +105,7 @@
 - Keep memory usage bounded to current and near-current items.
 - Keep codec support expectations centered on broadly supported system codecs.
 - Keep a single active playback surface/player by default.
-- Consider preloading the next media item only if next-item open latency consistently exceeds **200 ms** or swipe transitions visibly stutter during normal local playback.
+- Consider preloading the next media item only if next-item open latency consistently exceeds **200 ms** or swipe transitions visibly stutter during normal local playback; use **200 ms** as the cutoff to keep media changes feeling immediate during 60 FPS interaction.
 - Avoid custom GPU engines, custom decoders, and custom rendering pipelines unless profiling proves they are required.
 
 ---
