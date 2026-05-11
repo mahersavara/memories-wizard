@@ -22,7 +22,8 @@ class MediaService: MediaServiceProtocol {
         
         var mediaFiles: [URL] = []
         for case let fileURL as URL in enumerator {
-            if mediaExtensions.contains(fileURL.pathExtension.lowercased()) {
+            let fileName = fileURL.lastPathComponent
+            if !fileName.hasPrefix(".") && mediaExtensions.contains(fileURL.pathExtension.lowercased()) {
                 mediaFiles.append(fileURL)
             }
         }
