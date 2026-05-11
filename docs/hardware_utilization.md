@@ -111,6 +111,20 @@
 
 ---
 
+## Trade-Offs Against Current Features
+
+| Existing feature | What the guideline preserves | Trade-off introduced by the guideline |
+| :--- | :--- | :--- |
+| Auto-play, muted, looping video previews | Native playback stacks (`MediaElement`, `AVPlayer`, SwiftUI `VideoPlayer`) still support the current preview behavior. | Staying OS-player-first reduces control over frame-accurate behavior and makes a future zero-latency, multi-engine playback design less automatic. |
+| Tinder-style swipe flow | Transform-first animation keeps swipe motion, tilt, rotation, fades, and card transitions responsive. | It intentionally deprioritizes heavier visual effects, so future glass-heavy or shader-heavy transitions may need extra profiling before adoption. |
+| Glassmorphism UI | Targeted system blur/translucency remains supported. | The guideline treats blur as secondary to interaction smoothness, so blur layers should stay limited instead of expanding across every surface. |
+| Recursive scanning, move, skip, and trash actions | Native file APIs keep the current folder scan and file-operation flows aligned with the OS. | Native file handling favors reliability over aggressive parallelism, so scanning and file moves remain mostly CPU/disk bound rather than GPU-accelerated. |
+| Retry-based file-lock handling during move/trash | `BitmapCacheOption.OnLoad` and bounded active media reduce how long files stay tied to preview components. | Using `OnLoad` increases bitmap memory use, and single-player guidance can still leave a short open delay before the next video is ready. |
+| Jump to Index and fast item changes | Keeping memory bounded helps navigation stay predictable even in large folders. | The guideline avoids broad preloading, so jumping to a distant heavy video may still pay a fresh open cost instead of instant playback. |
+| Current single-preview media model | One active playback surface/player keeps resource usage close to the current implementation. | Fast-swipe video sessions may still show a measurable transition gap until profiling justifies a preloaded second player/surface. |
+
+---
+
 ## API Summary
 
 | Area | Windows | macOS |
