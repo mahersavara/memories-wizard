@@ -20,7 +20,7 @@
   - `MediaPlayer`
 - Let **Media Foundation** handle codec selection and hardware acceleration.
 - Treat **H.264 MP4/MOV** playback as the baseline path.
-- Keep one active playback surface unless profiling proves preloading is necessary.
+- Keep one active playback surface unless next-item open latency stays above **200 ms** or swipe transitions visibly stutter during normal local playback.
 
 ### Image Decode and Rendering
 - Use **Windows Imaging Component (WIC)** through WPF imaging APIs.
@@ -29,7 +29,7 @@
   - `BitmapDecoder`
   - `BitmapSource`
 - Set `DecodePixelWidth` or `DecodePixelHeight` for preview-sized rendering.
-- Use `BitmapCacheOption.OnLoad` only when the file must be fully detached from disk access.
+- Use `BitmapCacheOption.OnLoad` when the displayed file may be moved, deleted, or released immediately after loading.
 
 ### UI Animation
 - Use WPF transform-based animation.
@@ -62,10 +62,10 @@
   - `AVPlayer`
   - `AVPlayerItem`
   - `AVPlayerLayer`
-  - `VideoPlayer` when SwiftUI-only behavior is sufficient
+  - `VideoPlayer` for simple playback without custom controls, preloading, or playback-surface management
 - Let **AVFoundation** manage hardware decode automatically.
 - Treat **H.264 MP4/MOV** playback as the baseline path.
-- Keep one active player unless measurement shows a clear need for preloading.
+- Keep one active player unless next-item open latency stays above **200 ms** or swipe transitions visibly stutter during normal local playback.
 
 ### Image Decode and Rendering
 - Use **Image I/O** for image decode.
