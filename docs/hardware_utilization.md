@@ -1,56 +1,121 @@
-# 🖥️ Hardware Utilization: GPU vs CPU
+# 🖥️ Performance Guidelines
 
-This document provides a technical breakdown of how **Memories Wizard** utilizes your system's hardware to ensure a high-performance, premium user experience.
+## Recommendation
 
-## 🚀 Strategy: GPU-Heavy Architecture
-
-The application is designed to be **GPU-heavy**, offloading visually intensive tasks to your graphics hardware. This ensures that the interface remains responsive (60/120 FPS) and the CPU remains available for file system operations.
-
----
-
-## 🎨 GPU Utilization
-
-### 1. Video Playback (Hardware Acceleration)
-- **Technology:** Windows Media Foundation (WMF).
-- **Mechanism:** When a video is played, the app triggers **DirectX Video Acceleration (DXVA)**. This uses dedicated hardware decoders on your GPU to process H.264, H.265 (HEVC), and VP9 codecs.
-- **Benefit:** Ultra-low CPU usage (usually 1-3%) even for 4K video, preventing system heat and battery drain.
-
-### 2. Image Rendering
-- **Technology:** WPF DirectX Pipeline.
-- **Mechanism:** Images are loaded into memory and rendered as textures using DirectX. Scaling and color processing are handled by GPU shaders.
-- **Optimization:** We use `BitmapCacheOption.OnLoad` to ensure images are fully decoded into memory once, allowing the GPU to redraw them instantly without disk I/O.
-
-### 3. UI Animations & Effects
-- **Technology:** Windows Composition Engine.
-- **Mechanism:** Tinder-style swiping, rotations (Tilt), fly-off animations, and **Glassmorphism** (Mica/Acrylic) effects are processed directly by the GPU's composition layer.
-- **Benefit:** Guarantees frame-perfect animations without "jank" or lag.
+- Use native OS media, imaging, animation, and file APIs on each platform.
+- Target a smooth **60 FPS** interaction model for swiping, transitions, and media changes.
+- Prefer simple transform-based animations over heavy visual effects.
+- Decode images to the displayed size instead of always loading full-resolution assets.
+- Keep the active media set small in memory.
+- Use the OS playback stack instead of building a custom video pipeline.
 
 ---
 
-## ⚙️ CPU Utilization
+## Windows
 
-The CPU is reserved for logic-heavy and I/O-heavy tasks that cannot be effectively parallelized on a GPU.
+### Video Playback
+- Use **Windows Media Foundation** through WPF's native media stack.
+- Preferred APIs:
+  - `MediaElement`
+  - `MediaPlayer`
+- Let **Media Foundation** handle codec selection and hardware acceleration.
+- Treat **H.264 MP4/MOV** playback as the baseline path.
+- Keep one active playback surface unless profiling proves preloading is necessary.
 
-### 1. File System Operations
-- **Scanning:** Recursively crawling through directories to identify media files.
-- **Moving/Sorting:** Coordinating with the OS Kernel to perform `File.Move` operations across storage volumes.
-- **Trash:** Managing the interaction with the Windows Recycle Bin or hidden `.trash` folders.
+### Image Decode and Rendering
+- Use **Windows Imaging Component (WIC)** through WPF imaging APIs.
+- Preferred APIs:
+  - `BitmapImage`
+  - `BitmapDecoder`
+  - `BitmapSource`
+- Set `DecodePixelWidth` or `DecodePixelHeight` for preview-sized rendering.
+- Use `BitmapCacheOption.OnLoad` only when the file must be fully detached from disk access.
 
-### 2. Logic & Event Handling
-- Handling user input (keyboard/mouse), processing "Jump to Index" requests, and managing the state transition between screens.
+### UI Animation
+- Use WPF transform-based animation.
+- Preferred APIs:
+  - `RenderTransform`
+  - `TranslateTransform`
+  - `RotateTransform`
+  - `DoubleAnimation`
+  - `Storyboard`
+- Animate:
+  - translate
+  - rotate
+  - opacity
+- Avoid layout-driven animation when a render transform can do the same work.
+
+### File Operations
+- Use native .NET file APIs plus Windows recycle bin integration.
+- Preferred APIs:
+  - `Directory.EnumerateFiles`
+  - `File.Move`
+  - `Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(..., RecycleOption.SendToRecycleBin)`
 
 ---
 
-## 📊 Summary Table
+## macOS
 
-| Task | Primary Hardware | Technology |
+### Video Playback
+- Use **AVFoundation** for playback.
+- Preferred APIs:
+  - `AVPlayer`
+  - `AVPlayerItem`
+  - `AVPlayerLayer`
+  - `VideoPlayer` when SwiftUI-only behavior is sufficient
+- Let **AVFoundation** manage hardware decode automatically.
+- Treat **H.264 MP4/MOV** playback as the baseline path.
+- Keep one active player unless measurement shows a clear need for preloading.
+
+### Image Decode and Rendering
+- Use **Image I/O** for image decode.
+- Preferred APIs:
+  - `CGImageSource`
+  - `CGImageSourceCreateThumbnailAtIndex`
+  - `NSImage`
+  - `Image(nsImage:)`
+- Generate preview-sized thumbnails for browsing views.
+- Avoid full-resolution decode for every image during normal card navigation.
+
+### UI Animation
+- Use **SwiftUI** animations backed by **Core Animation**.
+- Preferred APIs:
+  - `withAnimation`
+  - `offset`
+  - `rotationEffect`
+  - `opacity`
+- Use **`NSVisualEffectView`** only for targeted system blur/translucency surfaces.
+- Keep transitions limited to swipe motion, rotation, and fades.
+
+### File Operations
+- Use native macOS file management APIs.
+- Preferred APIs:
+  - `FileManager.enumerator`
+  - `FileManager.moveItem`
+  - `FileManager.trashItem`
+
+---
+
+## Cross-Platform Rules
+
+- Keep media browsing **OS-API-first**.
+- Keep animation **transform-first**.
+- Keep image loading **display-size-first**.
+- Keep memory usage bounded to current and near-current items.
+- Keep codec support expectations centered on broadly supported system codecs.
+- Avoid custom GPU engines, custom decoders, and custom rendering pipelines unless profiling proves they are required.
+
+---
+
+## API Summary
+
+| Area | Windows | macOS |
 | :--- | :--- | :--- |
-| **Video Decoding** | **GPU** | WMF / DXVA |
-| **Image Display** | **GPU** | DirectX |
-| **Swiping Animations** | **GPU** | Composition Engine |
-| **Glassmorphism Blur** | **GPU** | Pixel Shaders |
-| **Folder Scanning** | **CPU** | .NET Runtime |
-| **File Moving** | **CPU / Disk** | OS Kernel |
+| Video playback | `MediaElement` / `MediaPlayer` on Media Foundation | `AVPlayer` / `AVPlayerItem` / `AVPlayerLayer` / `VideoPlayer` |
+| Image decode | `BitmapImage` / `BitmapDecoder` / `BitmapSource` on WIC | `CGImageSource` / `CGImageSourceCreateThumbnailAtIndex` / `NSImage` |
+| Animation | `RenderTransform` / `TranslateTransform` / `RotateTransform` / `Storyboard` | `withAnimation` / `offset` / `rotationEffect` / Core Animation |
+| File handling | `Directory.EnumerateFiles` / `File.Move` / recycle bin API | `FileManager.enumerator` / `moveItem` / `trashItem` |
 
 ---
-*Technical Analysis by the Memories Wizard Team*
+
+*Performance recommendation for Memories Wizard*
