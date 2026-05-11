@@ -63,7 +63,7 @@
   - `AVPlayer`
   - `AVPlayerItem`
   - `AVPlayerLayer`
-  - SwiftUI `VideoPlayer` for basic playback UI without frame-level control, preloading, or multi-instance playback management.
+  - SwiftUI `VideoPlayer` (suitable for basic playback UI; not intended for frame-level control, preloading, or multi-instance playback management).
 - Let **AVFoundation** manage hardware decode automatically.
 - Treat **H.264 MP4/MOV** playback as the baseline path.
 - Keep one active player by default.
@@ -105,7 +105,8 @@
 - Keep memory usage bounded to current and near-current items.
 - Keep codec support expectations centered on broadly supported system codecs.
 - Keep a single active playback surface/player by default.
-- Consider preloading the next media item only if next-item open latency consistently exceeds **200 ms** or swipe transitions visibly stutter during normal local playback; use **200 ms** as the cutoff to keep media changes feeling immediate during 60 FPS interaction.
+- Consider preloading the next media item only if next-item open latency consistently exceeds **200 ms** or swipe transitions visibly stutter during normal local playback.
+- Use **200 ms** as the cutoff so media changes continue to feel immediate during 60 FPS interaction.
 - Avoid custom GPU engines, custom decoders, and custom rendering pipelines unless profiling proves they are required.
 
 ---
