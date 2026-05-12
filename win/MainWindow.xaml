@@ -194,8 +194,10 @@
                     <!-- Success Screen -->
                     <StackPanel x:Name="SuccessScreen" Visibility="Collapsed" VerticalAlignment="Center">
                         <TextBlock Text="Journey Organized" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" Margin="0,0,0,15"/>
-                        <TextBlock Text="All your memories are now in their place." HorizontalAlignment="Center" Foreground="{StaticResource BrushDeepForest}" Margin="0,0,0,50" Opacity="0.7"/>
+                        <TextBlock Text="All your memories are now in their place." HorizontalAlignment="Center" Foreground="{StaticResource BrushDeepForest}" Margin="0,0,0,20" Opacity="0.7"/>
                         
+                        <TextBlock x:Name="TxtSummary" Text="Kept: 0 | Skipped: 0 | Trashed: 0" HorizontalAlignment="Center" Foreground="{StaticResource BrushDeepForest}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,50"/>
+
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Content="Restart" Click="BackToMenu_Click" Style="{StaticResource NatureButtonStyle}" Width="160" Margin="0,0,20,0" Background="#44000000"/>
                             <Button Content="View Collection" Click="OpenDest_Click" Style="{StaticResource NatureButtonStyle}" Width="200"/>

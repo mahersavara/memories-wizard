@@ -19,6 +19,12 @@ public partial class MainWindow : Window
     private int _currentIndex = -1;
     private readonly IMediaService _mediaService = new MediaService();
 
+    // Session Tracking
+    private List<string> _keptFiles = new();
+    private List<string> _skippedFiles = new();
+    private List<string> _trashedFiles = new();
+    private List<string> _unsupportedFiles = new();
+
     // Swipe tracking
     private Point _startPoint;
     private bool _isDragging = false;
@@ -143,8 +149,8 @@ public partial class MainWindow : Window
 
     private void UpdateMediaCount()
     {
-        var files = _mediaService.GetMediaFiles(_sourcePath, ChkRecursive.IsChecked == true);
-        TxtMediaCount.Text = $"{files.Count} media files found.";
+        var result = _mediaService.GetMediaFiles(_sourcePath, ChkRecursive.IsChecked == true);
+        TxtMediaCount.Text = $"{result.MediaFiles.Count} media files found.";
     }
 
     private void ChkRecursive_Changed(object sender, RoutedEventArgs e)
@@ -170,13 +176,19 @@ public partial class MainWindow : Window
 
     private void InitializeMediaQueue()
     {
-        _mediaFiles = _mediaService.GetMediaFiles(_sourcePath, ChkRecursive.IsChecked == true);
+        var result = _mediaService.GetMediaFiles(_sourcePath, ChkRecursive.IsChecked == true);
+        _mediaFiles = result.MediaFiles;
+        _unsupportedFiles = result.UnsupportedFiles;
 
         if (_mediaFiles.Count == 0)
         {
             MessageBox.Show("No media files found.", "Empty", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
+
+        _keptFiles.Clear();
+        _skippedFiles.Clear();
+        _trashedFiles.Clear();
 
         TxtTotalCount.Text = $" / {_mediaFiles.Count}";
         _currentIndex = 0;
@@ -236,6 +248,8 @@ public partial class MainWindow : Window
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(file);
             bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            // Optimization: Decode to display size to save RAM
+            bitmap.DecodePixelWidth = 1000; 
             bitmap.EndInit();
             ImgPreview.Source = bitmap;
         }
@@ -287,11 +301,14 @@ public partial class MainWindow : Window
             {
                 case Decision.Keep:
                     _mediaService.MoveToDestination(currentFile, _destPath);
+                    _keptFiles.Add(currentFile);
                     break;
                 case Decision.Trash:
                     _mediaService.SendToRecycleBin(currentFile);
+                    _trashedFiles.Add(currentFile);
                     break;
                 case Decision.Skip:
+                    _skippedFiles.Add(currentFile);
                     break;
             }
         }
@@ -307,6 +324,7 @@ public partial class MainWindow : Window
     {
         MediaScreen.Visibility = Visibility.Collapsed;
         SuccessScreen.Visibility = Visibility.Visible;
+        TxtSummary.Text = $"Kept: {_keptFiles.Count} | Skipped: {_skippedFiles.Count} | Trashed: {_trashedFiles.Count}\nFiltered (Non-media): {_unsupportedFiles.Count}";
     }
 
     private void BackToMenu_Click(object sender, RoutedEventArgs e)

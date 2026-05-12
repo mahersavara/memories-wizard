@@ -7,27 +7,45 @@ namespace MemoriesWizard;
 
 public interface IMediaService
 {
-    List<string> GetMediaFiles(string sourcePath, bool recursive = true);
+    MediaScanResult GetMediaFiles(string sourcePath, bool recursive = true);
     void MoveToDestination(string sourceFile, string destPath);
     void SendToRecycleBin(string path);
+}
+
+public class MediaScanResult
+{
+    public List<string> MediaFiles { get; set; } = new();
+    public List<string> UnsupportedFiles { get; set; } = new();
 }
 
 public class MediaService : IMediaService
 {
     private static readonly string[] MediaExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".mp4", ".mov", ".wmv", ".avi" };
 
-    public List<string> GetMediaFiles(string sourcePath, bool recursive = true)
+    public MediaScanResult GetMediaFiles(string sourcePath, bool recursive = true)
     {
+        var result = new MediaScanResult();
         if (string.IsNullOrEmpty(sourcePath) || !Directory.Exists(sourcePath))
-            return new List<string>();
+            return result;
 
         var option = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-        return Directory.EnumerateFiles(sourcePath, "*.*", option)
-            .Where(f => {
-                string fileName = Path.GetFileName(f);
-                return !fileName.StartsWith(".") && MediaExtensions.Contains(Path.GetExtension(f).ToLower());
-            })
-            .ToList();
+        var allFiles = Directory.EnumerateFiles(sourcePath, "*.*", option);
+
+        foreach (var file in allFiles)
+        {
+            string fileName = Path.GetFileName(file);
+            if (fileName.StartsWith(".")) continue; // Skip hidden/metadata
+
+            if (MediaExtensions.Contains(Path.GetExtension(file).ToLower()))
+            {
+                result.MediaFiles.Add(file);
+            }
+            else
+            {
+                result.UnsupportedFiles.Add(file);
+            }
+        }
+        return result;
     }
 
     public void MoveToDestination(string sourceFile, string destPath)
