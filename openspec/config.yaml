@@ -2,14 +2,7 @@ schema: cross-platform
 
 # Project context
 context: |
-  Memories Wizard is a cross-platform application that surfaces Apple Photos memories
-  as a native experience on both Windows and macOS.
-
-  Platforms:
-  - Windows: C# / WPF (XAML), .NET, project at win/MemoriesWizard.csproj
-  - macOS: Swift / SwiftUI, project at macOS/MemoriesWizard/
-
-  Each feature ships on both platforms independently.
+  The project context is defined in the AGENTS.md file
 
 rules:
   proposal:
