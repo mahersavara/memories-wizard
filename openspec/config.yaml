@@ -6,15 +6,17 @@ context: |
 
 rules:
   proposal:
-    - Keep platform-agnostic — no Win32 or SwiftUI specifics
+    - Keep platform-agnostic, no platform specifics
     - Include a Capabilities section listing capabilities for both platforms
-  specs-windows:
-    - Reference Win32 APIs, WPF/XAML patterns where relevant
-    - Use backslash path conventions in examples
-  specs-macos:
-    - Reference Cocoa/SwiftUI APIs where relevant
-    - Follow Apple HIG conventions
+    - Keep Proposal small in less than 500 words. If the proposal surpass this, ask the user to reduce the scope and refuse to create the proposal
+    - Always Include a Non-Goals section
+  design-windows:
+    - Include mermaid diagram showing desing, control flow and data flow
+  design-macos:
+    - Include mermaid diagram showing desing, control flow and data flow 
   tasks-windows:
+    - Break tasks into chunks in less than 2 hour
     - Reference MemoriesWizard.csproj and C# file paths under win/
   tasks-macos:
+    - Break tasks into chunks in less than 2 hour
     - Reference Swift files under macOS/MemoriesWizard/
