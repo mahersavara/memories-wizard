@@ -368,10 +368,6 @@ artifacts:
       - design-macos
 
 apply:
-  requires:
-    - tasks-windows
-    - tasks-macos
-  tracks: windows/tasks.md
   instruction: |
     Ask the user which platform to implement: windows or macos.
     Then read proposal.md plus that platform's specs, design, and tasks:
