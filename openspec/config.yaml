@@ -1,0 +1,32 @@
+schema: cross-platform
+
+# Project context
+context: |
+  Memories Wizard is a cross-platform application that surfaces Apple Photos memories
+  as a native experience on both Windows and macOS.
+
+  Platforms:
+  - Windows: C# / WPF (XAML), .NET, project at win/MemoriesWizard.csproj
+  - macOS: Swift / SwiftUI, project at macOS/MemoriesWizard/
+
+  Each feature ships on both platforms independently. Specs, design, and tasks
+  are split under windows/ and macos/ subdirectories within each change folder.
+  Two developers can work in parallel — one per platform.
+
+  Shared proposal (proposal.md) defines the WHY and WHAT — platform-agnostic.
+  Platform tracks (windows/*, macos/*) define platform-specific HOW and tasks.
+
+rules:
+  proposal:
+    - Keep platform-agnostic — no Win32 or SwiftUI specifics
+    - Include a Capabilities section listing capabilities for both platforms
+  specs-windows:
+    - Reference Win32 APIs, WPF/XAML patterns where relevant
+    - Use backslash path conventions in examples
+  specs-macos:
+    - Reference Cocoa/SwiftUI APIs where relevant
+    - Follow Apple HIG conventions
+  tasks-windows:
+    - Reference MemoriesWizard.csproj and C# file paths under win/
+  tasks-macos:
+    - Reference Swift files under macOS/MemoriesWizard/

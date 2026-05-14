@@ -1,0 +1,381 @@
+name: cross-platform
+version: 1
+description: spec-driven fork — shared proposal, per-platform windows/ and macos/ tracks
+
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Platform-agnostic proposal — the WHY and WHAT only
+    template: proposal.md
+    instruction: >
+      Create the proposal document that establishes WHY this change is needed.
+      Keep it platform-agnostic — implementation specifics go in each platform's specs/design.
+      Platform specs and tasks will live under windows/ and macos/ subdirectories.
+
+
+      Sections:
+
+      - **Why**: 1-2 sentences on the problem or opportunity. What problem does
+      this solve? Why now?
+
+      - **What Changes**: Bullet list of changes. Be specific about new
+      capabilities, modifications, or removals. Mark breaking changes with
+      **BREAKING**.
+
+      - **Capabilities**: Identify which specs will be created or modified:
+        - **New Capabilities**: List capabilities being introduced. Each becomes a new spec under windows/specs/<name>/spec.md and macos/specs/<name>/spec.md. Use kebab-case names (e.g., `user-auth`, `data-export`).
+        - **Modified Capabilities**: List existing capabilities whose REQUIREMENTS are changing. Only include if spec-level behavior changes (not just implementation details). Leave empty if no requirement changes.
+      - **Impact**: Affected code, APIs, dependencies, or systems.
+
+
+      IMPORTANT: The Capabilities section is critical. It creates the contract
+      between proposal and specs phases. Research existing specs before filling
+      this in. Each capability listed here will need corresponding spec files
+      under both windows/specs/ and macos/specs/.
+
+
+      Keep it concise (1-2 pages). Focus on the "why" not the "how" -
+      implementation details belong in platform-specific design files.
+
+
+      This is the foundation - all platform specs, design, and tasks build on this.
+    requires: []
+
+  - id: specs-windows
+    generates: "windows/specs/**/*.md"
+    description: Windows-specific specifications
+    template: spec.md
+    instruction: >
+      Read proposal.md first for feature context and motivation.
+      Create specification files that define WHAT the Windows implementation should do.
+
+
+      Create one spec file per capability listed in the proposal's Capabilities
+      section at windows/specs/<capability>/spec.md.
+
+
+      Delta operations (use ## headers):
+
+      - **ADDED Requirements**: New capabilities
+
+      - **MODIFIED Requirements**: Changed behavior - MUST include full updated
+      content
+
+      - **REMOVED Requirements**: Deprecated features - MUST include **Reason**
+      and **Migration**
+
+      - **RENAMED Requirements**: Name changes only - use FROM:/TO: format
+
+
+      Format requirements:
+
+      - Each requirement: `### Requirement: <name>` followed by description
+
+      - Use SHALL/MUST for normative requirements (avoid should/may)
+
+      - Each scenario: `#### Scenario: <name>` with WHEN/THEN format
+
+      - **CRITICAL**: Scenarios MUST use exactly 4 hashtags (`####`). Using 3
+      hashtags or bullets will fail silently.
+
+      - Every requirement MUST have at least one scenario.
+
+      - Cover Windows-specific behaviors: Win32 APIs, WPF/XAML conventions,
+      .exe/.msi packaging, Windows Registry, backslash paths, etc.
+
+
+      Common pitfall: Using MODIFIED with partial content loses detail at
+      archive time.
+
+      If adding new concerns without changing existing behavior, use ADDED
+      instead.
+
+
+      Example:
+
+      ```
+
+      ## ADDED Requirements
+
+
+      ### Requirement: User can export data
+
+      The system SHALL allow users to export their data in CSV format.
+
+
+      #### Scenario: Successful export
+
+      - **WHEN** user clicks "Export" button
+
+      - **THEN** system downloads a CSV file with all user data
+
+
+      ## REMOVED Requirements
+
+
+      ### Requirement: Legacy export
+
+      **Reason**: Replaced by new export system
+
+      **Migration**: Use new export endpoint at /api/v2/export
+
+      ```
+
+
+      Specs should be testable - each scenario is a potential test case.
+    requires:
+      - proposal
+
+  - id: specs-macos
+    generates: "macos/specs/**/*.md"
+    description: macOS-specific specifications
+    template: spec.md
+    instruction: >
+      Read proposal.md first for feature context and motivation.
+      Create specification files that define WHAT the macOS implementation should do.
+
+
+      Create one spec file per capability listed in the proposal's Capabilities
+      section at macos/specs/<capability>/spec.md.
+
+
+      Delta operations (use ## headers):
+
+      - **ADDED Requirements**: New capabilities
+
+      - **MODIFIED Requirements**: Changed behavior - MUST include full updated
+      content
+
+      - **REMOVED Requirements**: Deprecated features - MUST include **Reason**
+      and **Migration**
+
+      - **RENAMED Requirements**: Name changes only - use FROM:/TO: format
+
+
+      Format requirements:
+
+      - Each requirement: `### Requirement: <name>` followed by description
+
+      - Use SHALL/MUST for normative requirements (avoid should/may)
+
+      - Each scenario: `#### Scenario: <name>` with WHEN/THEN format
+
+      - **CRITICAL**: Scenarios MUST use exactly 4 hashtags (`####`). Using 3
+      hashtags or bullets will fail silently.
+
+      - Every requirement MUST have at least one scenario.
+
+      - Cover macOS-specific behaviors: Cocoa/SwiftUI APIs, .app/.dmg packaging,
+      macOS conventions, sandboxing, entitlements, slash paths, etc.
+
+
+      Specs should be testable - each scenario is a potential test case.
+    requires:
+      - proposal
+
+  - id: design-windows
+    generates: windows/design.md
+    description: Windows technical design
+    template: design.md
+    instruction: >
+      Read proposal.md and windows/specs/ for full context.
+      Create the design document that explains HOW to implement the Windows build.
+
+
+      When to include (create only if any apply):
+
+      - Cross-cutting change or new architectural pattern
+
+      - New external dependency or significant data model changes
+
+      - Security, performance, or migration complexity
+
+      - Ambiguity that benefits from technical decisions before coding
+
+
+      Sections:
+
+      - **Context**: Background, current state, Windows-specific constraints
+
+      - **Goals / Non-Goals**: What this design achieves and explicitly excludes
+
+      - **Decisions**: Key technical choices with rationale (why X over Y?).
+      Include alternatives considered for each decision.
+
+      - **Risks / Trade-offs**: Known limitations, things that could go wrong.
+      Format: [Risk] → Mitigation
+
+      - **Migration Plan**: Steps to deploy, rollback strategy (if applicable)
+
+      - **Open Questions**: Outstanding decisions or unknowns to resolve
+
+
+      Focus on architecture and approach, not line-by-line implementation.
+      Reference proposal.md for motivation and windows/specs/ for requirements.
+    requires:
+      - proposal
+      - specs-windows
+
+  - id: design-macos
+    generates: macos/design.md
+    description: macOS technical design
+    template: design.md
+    instruction: >
+      Read proposal.md and macos/specs/ for full context.
+      Create the design document that explains HOW to implement the macOS build.
+
+
+      When to include (create only if any apply):
+
+      - Cross-cutting change or new architectural pattern
+
+      - New external dependency or significant data model changes
+
+      - Security, performance, or migration complexity
+
+      - Ambiguity that benefits from technical decisions before coding
+
+
+      Sections:
+
+      - **Context**: Background, current state, macOS-specific constraints
+
+      - **Goals / Non-Goals**: What this design achieves and explicitly excludes
+
+      - **Decisions**: Key technical choices with rationale (why X over Y?).
+      Include alternatives considered for each decision.
+
+      - **Risks / Trade-offs**: Known limitations, things that could go wrong.
+      Format: [Risk] → Mitigation
+
+      - **Migration Plan**: Steps to deploy, rollback strategy (if applicable)
+
+      - **Open Questions**: Outstanding decisions or unknowns to resolve
+
+
+      Focus on architecture and approach, not line-by-line implementation.
+      Reference proposal.md for motivation and macos/specs/ for requirements.
+    requires:
+      - proposal
+      - specs-macos
+
+  - id: tasks-windows
+    generates: windows/tasks.md
+    description: Windows implementation tasks
+    template: tasks.md
+    instruction: >
+      Read windows/specs/ and windows/design.md.
+      Create the task list that breaks down the Windows implementation work.
+
+
+      **IMPORTANT: Follow the template below exactly.** The apply phase parses
+
+      checkbox format to track progress. Tasks not using `- [ ]` won't be
+      tracked.
+
+
+      Guidelines:
+
+      - Group related tasks under ## numbered headings
+
+      - Each task MUST be a checkbox: `- [ ] X.Y Task description`
+
+      - Tasks should be small enough to complete in one session
+
+      - Order tasks by dependency (what must be done first?)
+
+
+      Example:
+
+      ```
+
+      ## 1. Setup
+
+
+      - [ ] 1.1 Create new module structure
+
+      - [ ] 1.2 Add dependencies to MemoriesWizard.csproj
+
+
+      ## 2. Core Implementation
+
+
+      - [ ] 2.1 Implement feature in C#/WPF
+
+      - [ ] 2.2 Wire up XAML bindings
+
+      ```
+
+
+      Reference windows/specs/ for what needs to be built, windows/design.md for how.
+      Each task should be verifiable - you know when it's done.
+    requires:
+      - specs-windows
+      - design-windows
+
+  - id: tasks-macos
+    generates: macos/tasks.md
+    description: macOS implementation tasks
+    template: tasks.md
+    instruction: >
+      Read macos/specs/ and macos/design.md.
+      Create the task list that breaks down the macOS implementation work.
+
+
+      **IMPORTANT: Follow the template below exactly.** The apply phase parses
+
+      checkbox format to track progress. Tasks not using `- [ ]` won't be
+      tracked.
+
+
+      Guidelines:
+
+      - Group related tasks under ## numbered headings
+
+      - Each task MUST be a checkbox: `- [ ] X.Y Task description`
+
+      - Tasks should be small enough to complete in one session
+
+      - Order tasks by dependency (what must be done first?)
+
+
+      Example:
+
+      ```
+
+      ## 1. Setup
+
+
+      - [ ] 1.1 Create new Swift file or View
+
+      - [ ] 1.2 Add entitlement if required
+
+
+      ## 2. Core Implementation
+
+
+      - [ ] 2.1 Implement feature in Swift/SwiftUI
+
+      - [ ] 2.2 Wire up bindings or delegates
+
+      ```
+
+
+      Reference macos/specs/ for what needs to be built, macos/design.md for how.
+      Each task should be verifiable - you know when it's done.
+    requires:
+      - specs-macos
+      - design-macos
+
+apply:
+  requires:
+    - tasks-windows
+    - tasks-macos
+  tracks: windows/tasks.md
+  instruction: |
+    Ask the user which platform to implement: windows or macos.
+    Then read proposal.md plus that platform's specs, design, and tasks:
+      - windows: read windows/specs/, windows/design.md, windows/tasks.md
+      - macos: read macos/specs/, macos/design.md, macos/tasks.md
+    Implement only that platform's pending tasks. Do not touch the other platform's files.
+    Mark tasks complete as you go. Pause if you hit blockers or need clarification.
