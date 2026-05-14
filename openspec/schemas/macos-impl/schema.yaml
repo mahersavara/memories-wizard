@@ -1,0 +1,64 @@
+name: macos-impl
+version: 1
+description: macOS platform implementation — specs, design, tasks only. Reads the shared proposal from a sibling proposal change.
+
+artifacts:
+  - id: specs
+    generates: "specs/**/*.md"
+    description: macOS-specific specifications
+    template: spec.md
+    instruction: |
+      Before writing specs, read the shared proposal from the sibling change folder:
+        openspec/changes/<base-name>-proposal/proposal.md
+      (Replace <base-name> with this feature's name, e.g. install-flow-proposal/proposal.md)
+
+      Use the proposal for the WHY and WHAT. Then write macOS-specific requirements covering:
+      - AppKit / SwiftUI frameworks involved
+      - macOS APIs (AVFoundation, Photos, Core Data, etc.)
+      - File system paths (~/Library, Application Support, etc.)
+      - Sandbox entitlements and permissions (Photos, Camera, Microphone)
+      - macOS-specific UI behaviors and HIG guidelines
+      - Error handling and edge cases on macOS
+    requires: []
+
+  - id: design
+    generates: design.md
+    description: macOS-specific implementation design
+    template: design.md
+    instruction: |
+      Before writing the design, read:
+        openspec/changes/<base-name>-proposal/proposal.md
+      and the specs already created in this change folder.
+
+      Design the macOS-specific implementation approach:
+      - Architecture and component structure (SwiftUI / AppKit)
+      - Data flow and state management (@State, @ObservableObject, etc.)
+      - Key structs, classes, services in Swift
+      - Integration with existing macOS/ code
+      - Testing approach for macOS
+    requires: []
+
+  - id: tasks
+    generates: tasks.md
+    description: macOS implementation task list
+    template: tasks.md
+    instruction: |
+      Read the shared proposal at openspec/changes/<base-name>-proposal/proposal.md,
+      plus the specs and design in this change folder.
+
+      Create a concrete, ordered implementation task list for the macOS build.
+      Each task should be completable in under 2 hours. Group by phase if helpful.
+      Reference file paths relative to the macOS/ directory.
+    requires:
+      - specs
+      - design
+
+apply:
+  requires: [tasks]
+  tracks: tasks.md
+  instruction: |
+    Before implementing, read the shared proposal for full feature context:
+      openspec/changes/<base-name>-proposal/proposal.md
+    Then read this change's specs, design, and tasks.
+    Implement only the macOS-specific tasks listed in tasks.md.
+    All code changes should go into the macOS/ directory.

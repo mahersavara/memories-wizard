@@ -1,0 +1,56 @@
+schema: proposal-only
+
+context: |
+  # Memories Wizard — Project Context
+
+  ## What this project is
+  Memories Wizard is a cross-platform desktop application that helps users manage,
+  organize, and relive their photo and video memories. The app is built for two
+  platforms separately but satisfies the same product goals:
+
+  - **Windows** — built with C# / WPF / XAML (lives in win/)
+  - **macOS** — built with Swift / SwiftUI / AppKit (lives in macOS/)
+
+  ## Repository structure
+  - win/           — Windows app (C#, WPF, XAML)
+  - macOS/         — macOS app (Swift, SwiftUI)
+  - openspec/      — OpenSpec change management
+  - docs/          — Project documentation
+
+  ## Multi-platform change workflow
+  Every new feature follows a 3-change pattern:
+    1. <feature>-proposal   (schema: proposal-only)  — shared WHY + WHAT
+    2. <feature>-windows    (schema: windows-impl)   — Windows specs/design/tasks
+    3. <feature>-macos      (schema: macos-impl)     — macOS specs/design/tasks
+
+  The proposal-only change is NEVER applied (no tasks). Platform changes read
+  the shared proposal from openspec/changes/<feature>-proposal/proposal.md.
+
+  ## Naming conventions
+  - Change names: kebab-case (e.g. install-flow-proposal, install-flow-windows)
+  - Windows code: PascalCase classes, camelCase methods
+  - Swift code: PascalCase types, camelCase properties/methods
+
+  ## Key domain concepts
+  - Memory / memories: photos and videos from the user's library
+  - Media card: a single media item displayed in the UI
+  - Media service: the service layer that fetches and filters media
+
+rules:
+  proposal:
+    - Keep proposals under 600 words
+    - Always include a "Non-goals" section
+    - Do not mention platform-specific APIs or frameworks
+    - Focus on user-facing problems and outcomes
+  specs:
+    - Use Given/When/Then format for behavior scenarios
+    - Reference the shared proposal for motivation — do not re-explain it
+    - Cover platform-specific edge cases and error states
+  design:
+    - Include a component/class diagram if the design is non-trivial
+    - Reference existing patterns in the codebase before inventing new ones
+    - Note any new dependencies or frameworks required
+  tasks:
+    - Break tasks into chunks of max 2 hours each
+    - Order tasks so each is independently mergeable where possible
+    - Mark tasks that require platform-specific testing explicitly

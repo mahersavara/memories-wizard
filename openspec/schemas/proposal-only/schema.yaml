@@ -1,0 +1,26 @@
+name: proposal-only
+version: 1
+description: Shared proposal — why and what, platform-agnostic. Use this for the first change in a multi-platform feature.
+
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Platform-agnostic proposal explaining the WHY and WHAT
+    template: proposal.md
+    instruction: |
+      Create a platform-agnostic proposal explaining WHY this feature is needed
+      and WHAT it does at a product level. Do NOT include any platform-specific
+      implementation detail (no Win32 APIs, no macOS frameworks, no OS paths).
+      Specs, design, and tasks will be handled in separate platform-specific change
+      folders (e.g. <feature>-windows, <feature>-macos).
+
+      Structure the proposal with:
+      - Problem: What problem does this solve?
+      - Motivation: Why now?
+      - Proposed Feature: High-level description (platform-agnostic)
+      - Success Criteria: How do we know it works?
+      - Non-goals: What is explicitly out of scope?
+    requires: []
+
+apply:
+  requires: []  # No tasks — this change is planning-only
