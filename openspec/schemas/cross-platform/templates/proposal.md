@@ -20,4 +20,4 @@
 
 ## Impact
 
-<!-- Affected code, APIs, dependencies, systems -->
+<!-- Affected previous change in term of functionality of the application, anything break ? or anything backward compatible ? -->
