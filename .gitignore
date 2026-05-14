@@ -20,8 +20,4 @@ macos/**/*.moved-aside
 macos/**/*.xcuserstate
 
 # Temporary / Build Artifacts
-tmp/Publish/Windows/*
-!tmp/Publish/Windows/MemoriesWizard.exe
-tmp/Sandbox/
-tmp/InternalTests/[Bb]in/
-tmp/InternalTests/[Oo]bj/
+tmp
