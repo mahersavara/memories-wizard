@@ -9,12 +9,7 @@ context: |
   - Windows: C# / WPF (XAML), .NET, project at win/MemoriesWizard.csproj
   - macOS: Swift / SwiftUI, project at macOS/MemoriesWizard/
 
-  Each feature ships on both platforms independently. Specs, design, and tasks
-  are split under windows/ and macos/ subdirectories within each change folder.
-  Two developers can work in parallel — one per platform.
-
-  Shared proposal (proposal.md) defines the WHY and WHAT — platform-agnostic.
-  Platform tracks (windows/*, macos/*) define platform-specific HOW and tasks.
+  Each feature ships on both platforms independently.
 
 rules:
   proposal:
