@@ -28,15 +28,15 @@ When mouse is released with `|deltaX| < 150` and `|deltaY| < 150`, the card SHAL
 - **THEN** card animates back to centre with a spring bounce
 
 ### Requirement: Releasing above threshold animates card off-screen and fires decision
-When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `deltaY > 150` (Trash), the card SHALL animate to (`±1000`, offset) or (`offset`, `1000`) over 250ms and call `ProcessDecision` on animation completion.
+When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `deltaY > 150` (Trash), the card SHALL animate to (`±1000`, offset) or (`offset`, `1000`) over 300ms and call `ProcessDecision` on animation completion.
 
 #### Scenario: Swipe right commits Keep
 - **WHEN** user releases after dragging more than 150px right
-- **THEN** card flies off to the right and `ProcessDecision(Decision.Keep)` is called after 250ms
+- **THEN** card flies off to the right and `ProcessDecision(Decision.Keep)` is called after 300ms
 
 #### Scenario: Swipe down commits Trash
 - **WHEN** user releases after dragging more than 150px down
-- **THEN** card flies off downward and `ProcessDecision(Decision.Trash)` is called after 250ms
+- **THEN** card flies off downward and `ProcessDecision(Decision.Trash)` is called after 300ms
 
 ### Requirement: Keyboard shortcuts trigger decisions
 While `MediaScreen` is visible, the following keys SHALL trigger `AnimateOffScreen` immediately:

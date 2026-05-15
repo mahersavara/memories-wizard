@@ -9,7 +9,8 @@
 
 - [x] 2.1 Create `win/App.xaml` with merged `ResourceDictionary` for global styles
 - [x] 2.2 Create `win/App.xaml.cs` with `Application` subclass
-- [x] 2.3 Create `win/AssemblyInfo.cs` with `CLSCompliant(false)` attribute
+- [x] 2.3 Register `DispatcherUnhandledException` handler in `OnStartup` that writes `crash.log` and shows a `MessageBox` in `win/App.xaml.cs`
+- [x] 2.4 Create `win/AssemblyInfo.cs` with `CLSCompliant(false)` attribute
 
 ## 3. Resources
 
@@ -20,3 +21,4 @@
 
 - [x] 4.1 Run `dotnet build win/MemoriesWizard.csproj` and confirm zero errors
 - [x] 4.2 Launch app and verify window icon and global styles are applied
+- [x] 4.3 Verify crash handler fires and writes `crash.log` when an unhandled exception occurs

@@ -42,7 +42,7 @@ A `DispatcherTimer` with 200ms interval SHALL update `SldSeek.Value` and `TxtVid
 - **THEN** `VidPreview.Volume` becomes 0.8
 
 ### Requirement: Speed selector changes playback rate
-`CmbSpeed` ComboBox SHALL offer: `0.5x`, `0.75x`, `1.0x` (default), `1.25x`, `1.5x`. On selection change, `VidPreview.SpeedRatio` SHALL be updated accordingly.
+`CmbSpeed` ComboBox SHALL offer: `0.5x`, `0.75x`, `1.0x` (default), `1.25x`, `1.5x`, `2.0x`. On selection change, `VidPreview.SpeedRatio` SHALL be updated accordingly.
 
 #### Scenario: Speed set to 1.5x
 - **WHEN** user selects "1.5x" from `CmbSpeed`
@@ -54,6 +54,13 @@ A `DispatcherTimer` with 200ms interval SHALL update `SldSeek.Value` and `TxtVid
 #### Scenario: Unsupported video codec
 - **WHEN** `MediaFailed` fires
 - **THEN** a warning MessageBox shows the error message
+
+### Requirement: Current speed setting is applied each time a video opens
+`VidPreview_MediaOpened` SHALL call `ApplyCurrentSpeed()` so that the speed selected in `CmbSpeed` is applied immediately when a new video is loaded, not only when the user changes the selector.
+
+#### Scenario: Speed preserved across video changes
+- **WHEN** user sets speed to 1.5x and then swipes to the next video
+- **THEN** the new video starts playing at 1.5x without requiring the user to reselect the speed
 
 ## MODIFIED Requirements
 

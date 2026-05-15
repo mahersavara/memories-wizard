@@ -36,3 +36,16 @@ A `Resources/` subdirectory SHALL exist under `win/` and contain `icon.png` used
 #### Scenario: Window icon loads
 - **WHEN** `MainWindow` is displayed
 - **THEN** the taskbar and title bar show the custom application icon
+
+### Requirement: Global unhandled-exception handler writes a crash log and notifies the user
+`App.xaml.cs` SHALL subscribe to `Application.DispatcherUnhandledException` in `OnStartup`. The handler SHALL write the exception message and stack trace to `crash.log` in the application base directory, show a `MessageBox` that includes the log path and error message, and mark the exception as handled so the process does not terminate abruptly.
+
+#### Scenario: Unhandled exception is caught
+- **WHEN** an unhandled exception propagates to the dispatcher
+- **THEN** `crash.log` is written to the application base directory
+- **THEN** a `MessageBox` is shown with the error message and the path to `crash.log`
+- **THEN** the application continues running (exception is marked handled)
+
+#### Scenario: Crash log content
+- **WHEN** the crash handler fires with a known exception message
+- **THEN** `crash.log` contains both the exception message and its stack trace

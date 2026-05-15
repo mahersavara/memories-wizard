@@ -8,6 +8,7 @@ The application needs a host window that provides a modern frameless look while 
 - Rounded corner clipping applied to the entire window surface
 - Three named screen panels (Menu, Media, Summary) hosted in the same container
 - Only one screen visible at a time via visibility toggling
+- Custom title bar row with Minimize, Maximize/Restore, and Close buttons
 - Media service injected at startup; global keyboard input handler registered
 
 ## Non-Goals

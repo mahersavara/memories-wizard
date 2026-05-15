@@ -5,7 +5,8 @@ The media library may contain video files alongside photos. Users need inline vi
 
 ## What Changes
 - Video renderer displays video files inside the media card; auto-plays and loops on completion
-- Controls overlay with seek slider, volume slider, and playback speed selector
+- Controls overlay with seek slider, volume slider, and playback speed selector (0.5×–2.0×)
+- Speed setting is re-applied automatically each time a new video opens
 - Periodic timer syncs the seek position and elapsed/total time display during playback
 - Seek slider distinguishes user drag from programmatic updates to avoid feedback loops
 - Playback errors are surfaced as a user-facing warning dialog

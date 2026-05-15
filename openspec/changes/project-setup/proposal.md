@@ -6,6 +6,7 @@ The Memories Wizard project requires a documented, reproducible build foundation
 ## What Changes
 - Platform project files and build configuration for each target platform
 - Application entry point and bootstrap with global resource definitions
+- Global unhandled-exception handler that writes a crash log and surfaces an error dialog to the user
 - Platform-specific dependencies declared for file system utilities
 - Resource directory structure for icons and static assets
 - Global visual styles and theming configured at application level

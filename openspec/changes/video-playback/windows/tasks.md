@@ -5,12 +5,12 @@
 - [x] 1.1 Add `VidPreview` MediaElement inside `MediaContainer` (`LoadedBehavior=Manual`, `UnloadedBehavior=Stop`, `ScrubbingEnabled=True`, `Volume=0.5`) in `win/MainWindow.xaml`
 - [x] 1.2 Add `VidControls` overlay Border (`VerticalAlignment=Bottom`, initially `Collapsed`) with seek, time, volume, and speed controls in `win/MainWindow.xaml`
 - [x] 1.3 Add `SldSeek` Slider with `DragStarted`, `DragCompleted`, `ValueChanged` events in `win/MainWindow.xaml`
-- [x] 1.4 Add `TxtVidTime` TextBlock, `SldVolume` Slider (0–1, default 0.5), `CmbSpeed` ComboBox (0.5x/0.75x/1.0x/1.25x/1.5x, default index 2) in `win/MainWindow.xaml`
+- [x] 1.4 Add `TxtVidTime` TextBlock, `SldVolume` Slider (0–1, default 0.5), `CmbSpeed` ComboBox (0.5x/0.75x/1.0x/1.25x/1.5x/2.0x, default index 2) in `win/MainWindow.xaml`
 
 ## 2. Playback Logic
 
 - [x] 2.1 Subscribe `MediaOpened`, `MediaEnded`, `MediaFailed` events on `VidPreview` in `win/MainWindow.xaml.cs` constructor
-- [x] 2.2 Implement `VidPreview_MediaOpened`: set `SldSeek.Maximum`, start timer, call `ApplyCurrentSpeed` in `win/MainWindow.xaml.cs`
+- [x] 2.2 Implement `VidPreview_MediaOpened`: set `SldSeek.Maximum`, start timer, call `ApplyCurrentSpeed` (re-applies current speed on every new video open) in `win/MainWindow.xaml.cs`
 - [x] 2.3 Implement `ApplyCurrentSpeed` parsing `CmbSpeed` selected content and setting `VidPreview.SpeedRatio` in `win/MainWindow.xaml.cs`
 - [x] 2.4 Add `MediaEnded` handler resetting `VidPreview.Position = TimeSpan.Zero` in `win/MainWindow.xaml.cs`
 - [x] 2.5 Implement `VidPreview_MediaFailed` showing warning `MessageBox` in `win/MainWindow.xaml.cs`

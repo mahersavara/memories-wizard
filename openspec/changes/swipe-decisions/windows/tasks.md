@@ -14,7 +14,7 @@
 
 ## 3. Animation
 
-- [x] 3.1 Implement `AnimateOffScreen(Decision, targetX, targetY)` with 250ms `DoubleAnimation` and `ProcessDecision` called on `Completed` in `win/MainWindow.xaml.cs`
+- [x] 3.1 Implement `AnimateOffScreen(Decision, targetX, targetY)` with 300ms `DoubleAnimation` and `ProcessDecision` called on `Completed` in `win/MainWindow.xaml.cs`
 - [x] 3.2 Implement spring-back using `BackEase(Amplitude=0.5, EaseOut)` for X, Y, and Angle in `win/MainWindow.xaml.cs`
 
 ## 4. Keyboard Shortcuts
