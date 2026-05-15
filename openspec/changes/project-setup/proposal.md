@@ -8,7 +8,7 @@ The Memories Wizard project requires a documented, reproducible build foundation
 - Application entry point and bootstrap with global resource definitions
 - Global unhandled-exception handler that writes a crash log and surfaces an error dialog to the user
 - Platform-specific dependencies declared for file system utilities
-- Resource directory structure for icons and static assets
+- Resource directory structure including window icon (`icon.png`) and executable icon (`app_icon.ico`)
 - Global visual styles and theming configured at application level
 
 ## Non-Goals

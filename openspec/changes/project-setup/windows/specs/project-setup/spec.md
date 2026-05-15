@@ -23,19 +23,26 @@ The project SHALL reference `Microsoft.VisualBasic` to enable `FileSystem.Delete
 - **WHEN** the application starts
 - **THEN** all `StaticResource` references in `MainWindow.xaml` resolve without `XamlParseException`
 
-### Requirement: Assembly metadata is declared
-`AssemblyInfo.cs` SHALL declare the assembly as not CLS-compliant (`CLSCompliant(false)`) to suppress WPF-related warnings.
+### Requirement: Assembly metadata declares WPF theme information
+`AssemblyInfo.cs` SHALL declare `[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]` to inform WPF where to locate theme and generic resource dictionaries.
 
-#### Scenario: Clean build with no CLS warnings
+#### Scenario: WPF theme metadata is present
 - **WHEN** the project is built
-- **THEN** no CLS compliance warnings appear in the build output
+- **THEN** WPF resolves generic resource-dictionary lookups via the source assembly without runtime errors
 
-### Requirement: Resources directory contains the application icon
-A `Resources/` subdirectory SHALL exist under `win/` and contain `icon.png` used as the window icon.
+### Requirement: Resources directory contains the window icon
+A `Resources/` subdirectory SHALL exist under `win/` and contain `icon.png` referenced by `MainWindow.Icon` for the in-window title-bar icon.
 
 #### Scenario: Window icon loads
 - **WHEN** `MainWindow` is displayed
-- **THEN** the taskbar and title bar show the custom application icon
+- **THEN** the in-window title bar shows the custom icon
+
+### Requirement: Application executable icon is embedded in the binary
+The csproj SHALL declare `<ApplicationIcon>Resources\app_icon.ico</ApplicationIcon>` so the compiled `.exe` carries the Windows `.ico` as its embedded application icon, used by the taskbar, Alt+Tab switcher, and Windows Explorer.
+
+#### Scenario: Executable carries application icon
+- **WHEN** the project is built
+- **THEN** the compiled `MemoriesWizard.exe` displays the custom icon in Windows Explorer and the taskbar
 
 ### Requirement: Global unhandled-exception handler writes a crash log and notifies the user
 `App.xaml.cs` SHALL subscribe to `Application.DispatcherUnhandledException` in `OnStartup`. The handler SHALL write the exception message and stack trace to `crash.log` in the application base directory, show a `MessageBox` that includes the log path and error message, and mark the exception as handled so the process does not terminate abruptly.

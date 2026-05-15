@@ -59,8 +59,16 @@ A `DispatcherTimer` with 200ms interval SHALL update `SldSeek.Value` and `TxtVid
 - **WHEN** `MediaFailed` fires
 - **THEN** a warning MessageBox shows the error message
 
-### Requirement: Current speed setting is applied each time a video opens
-`VidPreview_MediaOpened` SHALL call `ApplyCurrentSpeed()` so that the speed selected in `CmbSpeed` is applied immediately when a new video is loaded, not only when the user changes the selector.
+### Requirement: MediaOpened initialises seek range, starts playback timer, and applies speed
+`VidPreview_MediaOpened` SHALL perform three actions when a video is successfully opened: (1) set `SldSeek.Maximum` to `VidPreview.NaturalDuration.TimeSpan.TotalSeconds` so the seek slider covers the full video duration; (2) call `_timer.Start()` so seek-position and time-display updates begin immediately; and (3) call `ApplyCurrentSpeed()` to apply the `CmbSpeed` selection without requiring the user to change it.
+
+#### Scenario: Seek slider range matches video duration on open
+- **WHEN** a new video is loaded
+- **THEN** `SldSeek.Maximum` equals the video duration in seconds
+
+#### Scenario: Playback timer starts on open
+- **WHEN** a new video is loaded
+- **THEN** `_timer` is running and `SldSeek`/`TxtVidTime` update every ~200ms
 
 #### Scenario: Speed preserved across video changes
 - **WHEN** user sets speed to 1.5x and then swipes to the next video

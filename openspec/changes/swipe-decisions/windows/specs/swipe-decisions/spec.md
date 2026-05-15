@@ -28,7 +28,7 @@ When mouse is released with `|deltaX| < 150` and `|deltaY| < 150`, the card SHAL
 - **THEN** card animates back to centre with a spring bounce
 
 ### Requirement: Releasing above threshold animates card off-screen and fires decision
-When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `deltaY > 150` (Trash), the card SHALL animate to (`±1000`, offset) or (`offset`, `1000`) over 300ms using `ExponentialEase { Exponent = 2, EasingMode = EaseIn }` for both X and Y axes, then call `ProcessDecision` on animation completion.
+When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `deltaY > 150` (Trash), three concurrent animations SHALL run over 300ms: the X translation animates to `±1000` using `ExponentialEase { Exponent = 2, EasingMode = EaseIn }`; the Y translation animates to the paired offset using `ExponentialEase { Exponent = 2, EasingMode = EaseIn }`; and the rotation angle animates linearly (no easing) to `MediaRotate.Angle * 2`, doubling the current tilt. `ProcessDecision` SHALL be called on the X animation's `Completed` event.
 
 #### Scenario: Swipe right commits Keep
 - **WHEN** user releases after dragging more than 150px right
@@ -37,6 +37,13 @@ When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `d
 #### Scenario: Swipe down commits Trash
 - **WHEN** user releases after dragging more than 150px down
 - **THEN** card flies off downward and `ProcessDecision(Decision.Trash)` is called after 300ms
+
+### Requirement: In-progress card animations are cancelled when a new drag begins
+On `MouseLeftButtonDown`, `MediaContainer` SHALL cancel any running X, Y, and Angle animations by calling `BeginAnimation(..., null)` on each transform property before recording the new drag start point, preventing a spring-back from fighting a new drag gesture.
+
+#### Scenario: New drag interrupts spring-back
+- **WHEN** the user begins dragging the card while a spring-back animation is in progress
+- **THEN** the spring-back is cancelled immediately and the card responds to the new drag position
 
 ### Requirement: Keyboard shortcuts trigger decisions
 While `MediaScreen` is visible, the following keys SHALL trigger `AnimateOffScreen` immediately:

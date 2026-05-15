@@ -7,7 +7,8 @@ The core sorting experience relies on fluid, gesture-driven decisions. Users sho
 - Drag gesture on the media card translates and tilts the card in real-time
 - Direction indicator overlay (KEEP / SKIP / TRASH) fades in proportionally to drag distance
 - Release below threshold springs the card back to centre
-- Release above threshold animates the card off-screen and fires the decision
+- Release above threshold animates the card off-screen (with concurrent tilt-doubling rotation) and fires the decision
+- Any in-progress card animation is cancelled immediately when a new drag begins
 - Keyboard shortcuts: → Keep, ← Skip, ↓ Trash
 
 ## Non-Goals

@@ -61,3 +61,18 @@ If any file operation throws an exception, `ProcessDecision` SHALL catch it and 
 #### Scenario: End of session counts reflect decisions
 - **WHEN** the user keeps 3, skips 2, trashes 1 out of 6 files
 - **THEN** `_keptFiles.Count == 3`, `_skippedFiles.Count == 2`, `_trashedFiles.Count == 1`
+
+### Requirement: Media sources are released before file operations
+Before executing any file operation, `ProcessDecision` SHALL stop video playback (`VidPreview.Stop()`), clear the video source (`VidPreview.Source = null`), and clear the image source (`ImgPreview.Source = null`) to release OS file locks held by the media rendering pipeline.
+
+#### Scenario: Video file can be moved immediately after decision
+- **WHEN** `ProcessDecision` is called while a video is playing
+- **THEN** `VidPreview` is stopped and its source cleared before the file move is attempted
+- **THEN** the move succeeds without an `IOException` caused by an open file handle
+
+### Requirement: Session tracking lists are cleared at the start of each new session
+`InitializeMediaQueue` SHALL call `.Clear()` on `_keptFiles`, `_skippedFiles`, and `_trashedFiles` before populating the queue, so that a session started from the same running instance begins with fresh counts.
+
+#### Scenario: Repeated session starts with fresh counts
+- **WHEN** the user completes a session and clicks "Restart" to begin a new session
+- **THEN** `_keptFiles`, `_skippedFiles`, and `_trashedFiles` are all empty at the start of the new session

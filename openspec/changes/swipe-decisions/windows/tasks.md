@@ -14,7 +14,7 @@
 
 ## 3. Animation
 
-- [x] 3.1 Implement `AnimateOffScreen(Decision, targetX, targetY)` with 300ms `DoubleAnimation` and `ProcessDecision` called on `Completed` in `win/MainWindow.xaml.cs`
+- [x] 3.1 Implement `AnimateOffScreen(Decision, targetX, targetY)` with three concurrent 300ms `DoubleAnimation`s: X and Y use `ExponentialEase { Exponent=2, EaseIn }`, rotation uses a linear animation to `MediaRotate.Angle * 2`; `ProcessDecision` called on X animation `Completed` in `win/MainWindow.xaml.cs`
 - [x] 3.2 Implement spring-back using `BackEase(Amplitude=0.5, EaseOut)` for X, Y, and Angle in `win/MainWindow.xaml.cs`
 
 ## 4. Keyboard Shortcuts
