@@ -14,7 +14,7 @@
 - **THEN** the window resizes
 
 ### Requirement: Window has rounded corners
-An outer `Border` with `CornerRadius="30"` and `ClipToBounds="True"` SHALL clip all child content to rounded corners.
+`WindowChrome.CornerRadius="30"` SHALL clip the window surface at the OS level to produce rounded corners. An outer `Border` with `CornerRadius="30"` SHALL additionally provide the gradient background shape aligned to those corners. No `ClipToBounds` attribute is required on the border because the OS-level chrome radius handles the clipping.
 
 #### Scenario: Rounded corners visible
 - **WHEN** the application launches

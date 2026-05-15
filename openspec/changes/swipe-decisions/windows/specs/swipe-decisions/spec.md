@@ -28,7 +28,7 @@ When mouse is released with `|deltaX| < 150` and `|deltaY| < 150`, the card SHAL
 - **THEN** card animates back to centre with a spring bounce
 
 ### Requirement: Releasing above threshold animates card off-screen and fires decision
-When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `deltaY > 150` (Trash), the card SHALL animate to (`±1000`, offset) or (`offset`, `1000`) over 300ms and call `ProcessDecision` on animation completion.
+When mouse is released with `deltaX > 150` (Keep), `deltaX < -150` (Skip), or `deltaY > 150` (Trash), the card SHALL animate to (`±1000`, offset) or (`offset`, `1000`) over 300ms using `ExponentialEase { Exponent = 2, EasingMode = EaseIn }` for both X and Y axes, then call `ProcessDecision` on animation completion.
 
 #### Scenario: Swipe right commits Keep
 - **WHEN** user releases after dragging more than 150px right

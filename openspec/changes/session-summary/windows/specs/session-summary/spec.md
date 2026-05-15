@@ -17,18 +17,18 @@
 - **WHEN** the session ends with 5 kept, 3 skipped, 2 trashed, 1 non-media
 - **THEN** `TxtSummary` shows "Kept: 5 | Skipped: 3 | Trashed: 2\nFiltered (Non-media): 1"
 
-### Requirement: Open Destination button opens the destination folder in Explorer
-`OpenDest_Click` SHALL call `Process.Start("explorer.exe", _destPath)`.
+### Requirement: View Collection button opens the destination folder in Explorer
+`OpenDest_Click` SHALL call `Process.Start("explorer.exe", _destPath)`. The button SHALL display the label `"View Collection"`.
 
 #### Scenario: Open destination
-- **WHEN** user clicks "Open Destination"
+- **WHEN** user clicks "View Collection"
 - **THEN** Windows Explorer opens to the configured destination folder
 
-### Requirement: Back to Menu resets to the setup screen
-`BackToMenu_Click` SHALL set `SuccessScreen.Visibility = Collapsed` and `MenuScreen.Visibility = Visible`.
+### Requirement: Restart button resets to the setup screen
+`BackToMenu_Click` SHALL set `SuccessScreen.Visibility = Collapsed` and `MenuScreen.Visibility = Visible`. The button SHALL display the label `"Restart"`.
 
 #### Scenario: Return to menu
-- **WHEN** user clicks "Back to Menu"
+- **WHEN** user clicks "Restart"
 - **THEN** `MenuScreen` is shown and `SuccessScreen` is hidden
 - **THEN** the source/destination paths remain as configured
 

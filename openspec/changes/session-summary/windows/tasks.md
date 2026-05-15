@@ -4,8 +4,8 @@
 
 - [x] 1.1 Add `SuccessScreen` Border (initially `Collapsed`) to the screen container in `win/MainWindow.xaml`
 - [x] 1.2 Add `TxtSummary` TextBlock inside `SuccessScreen` in `win/MainWindow.xaml`
-- [x] 1.3 Add "Open Destination" button wired to `OpenDest_Click` in `win/MainWindow.xaml`
-- [x] 1.4 Add "Back to Menu" button wired to `BackToMenu_Click` in `win/MainWindow.xaml`
+- [x] 1.3 Add "View Collection" button wired to `OpenDest_Click` in `win/MainWindow.xaml`
+- [x] 1.4 Add "Restart" button wired to `BackToMenu_Click` in `win/MainWindow.xaml`
 
 ## 2. Complete Now Button
 

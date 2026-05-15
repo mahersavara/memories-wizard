@@ -2,12 +2,12 @@
 
 ## 1. Window Configuration
 
-- [x] 1.1 Set `WindowStyle="None"`, `AllowsTransparency="True"`, `WindowStartupLocation="CenterScreen"`, `Width="500"`, `Height="700"` on `Window` in `win/MainWindow.xaml`
+- [x] 1.1 Set `WindowStyle="None"`, `AllowsTransparency="True"`, `WindowStartupLocation="CenterScreen"`, `Width="1000"`, `Height="700"` on `Window` in `win/MainWindow.xaml`
 - [x] 1.2 Add `WindowChrome` with `CaptionHeight="50"` and `ResizeBorderThickness="8"` in `win/MainWindow.xaml`
 
 ## 2. Rounded Window Shell
 
-- [x] 2.1 Wrap window content in an outer `Border` with `CornerRadius="30"` and `ClipToBounds="True"` in `win/MainWindow.xaml`
+- [x] 2.1 Add outer background `Border` with `CornerRadius="30"` for the gradient background in `win/MainWindow.xaml` (corner clipping is provided by `WindowChrome.CornerRadius="30"`, not `ClipToBounds`)
 
 ## 3. Custom Title Bar
 

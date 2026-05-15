@@ -6,8 +6,8 @@ After sorting all files (or choosing to stop early), users need a clear report o
 ## What Changes
 - New summary screen displayed when the queue is exhausted or the user ends the session early
 - Summary text showing kept, skipped, trashed, and non-media file counts
-- "Open Destination" action opens the destination folder in the platform file browser
-- "Back to Menu" resets to the setup screen for a new session
+- "View Collection" action opens the destination folder in the platform file browser
+- "Restart" resets to the setup screen for a new session
 - "Complete Now" button in the media screen allows early session termination
 
 ## Non-Goals

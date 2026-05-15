@@ -28,11 +28,15 @@ A `DispatcherTimer` with 200ms interval SHALL update `SldSeek.Value` and `TxtVid
 - **THEN** the timer tick does not override the slider value
 
 ### Requirement: User can seek by dragging the seek slider
-`SldSeek.DragStarted` SHALL set `_isSeeking = true`. `SldSeek.DragCompleted` SHALL set `_isSeeking = false` and apply `VidPreview.Position = TimeSpan.FromSeconds(SldSeek.Value)`.
+`SldSeek.DragStarted` SHALL set `_isSeeking = true`. While `_isSeeking` is `true`, `SldSeek_ValueChanged` SHALL update `VidPreview.Position` in real time as the thumb moves. `SldSeek.DragCompleted` SHALL set `_isSeeking = false` and apply a final `VidPreview.Position = TimeSpan.FromSeconds(SldSeek.Value)`.
 
 #### Scenario: User drags seek slider
 - **WHEN** user drags `SldSeek` to 30 seconds
 - **THEN** on release, `VidPreview.Position` is set to 30 seconds
+
+#### Scenario: Position updates live during drag
+- **WHEN** user drags `SldSeek` while a video is playing
+- **THEN** `VidPreview.Position` updates continuously as the thumb moves (not only on release)
 
 ### Requirement: Volume slider controls playback volume
 `SldVolume` (range 0–1, default 0.5) SHALL set `VidPreview.Volume` on `ValueChanged`.
