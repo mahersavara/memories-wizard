@@ -4,12 +4,16 @@ schema: cross-platform
 context: |
   The project context is defined in the AGENTS.md file
 
+workflow:
+  - Always update openspec/changes/dependency.md when creating a new change, adding it to the catalogue table and the dependency graph with its correct dependencies.
+
 rules:
   proposal:
-    - Keep platform-agnostic, no platform specifics
+    - Keep platform-agnostic, no platform specifics, no reference of any platform specific file, no mention of the platform in this artifact.
     - Include a Capabilities section listing capabilities for both platforms
     - Keep Proposal small in less than 500 words. If the proposal surpass this, ask the user to reduce the scope and refuse to create the proposal
     - Always Include a Non-Goals section
+    - The Impact section never reference a file, but addressing the impact to the functionality of previous change
   design-windows:
     - Include mermaid diagram showing desing, control flow and data flow
   design-macos:
