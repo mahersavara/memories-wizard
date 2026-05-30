@@ -27,7 +27,7 @@ swiftc \
   -sdk "$SDK" \
   -target "$TARGET" \
   -module-name MemoriesWizard \
-  Sources/MemoriesWizard/*.swift \
+  "$PROJECT_DIR/Sources/MemoriesWizard"/*.swift \
   -framework SwiftUI \
   -framework AppKit \
   -framework AVKit \
@@ -36,11 +36,11 @@ swiftc \
   -o "$MACOS_DIR/MemoriesWizard"
 
 # Copy Info.plist
-cp Sources/MemoriesWizard/Info.plist "$APP_BUNDLE/Contents/Info.plist"
+cp "$PROJECT_DIR/Sources/MemoriesWizard/Info.plist" "$APP_BUNDLE/Contents/Info.plist"
 
 # Copy resources
-cp -R Resources/* "$RESOURCES_DIR/" 2>/dev/null || true
-cp -R Assets.xcassets "$RESOURCES_DIR/" 2>/dev/null || true
+cp -R "$PROJECT_DIR/Resources/"* "$RESOURCES_DIR/" 2>/dev/null || true
+cp -R "$PROJECT_DIR/Assets.xcassets" "$RESOURCES_DIR/" 2>/dev/null || true
 
 # Create PkgInfo
 echo -n 'APPL????' > "$APP_BUNDLE/Contents/PkgInfo"

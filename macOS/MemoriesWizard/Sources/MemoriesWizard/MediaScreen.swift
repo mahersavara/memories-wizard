@@ -95,9 +95,6 @@ struct MediaScreen: View {
                     }
             )
             .allowsHitTesting(!isProcessing)
-            .onAppear {
-                initializeMediaQueue()
-            }
 
             // Controls overlay (bottom)
             VStack {
@@ -160,7 +157,14 @@ struct MediaScreen: View {
         }
         .onAppear {
             setupKeyboardMonitor()
-            initializeMediaQueue()
+            if activeScreen == .media {
+                initializeMediaQueue()
+            }
+        }
+        .onChange(of: activeScreen) { newScreen in
+            if newScreen == .media {
+                initializeMediaQueue()
+            }
         }
         .onDisappear {
             removeKeyboardMonitor()
@@ -210,12 +214,13 @@ struct MediaScreen: View {
     // MARK: - Queue Initialisation
 
     func initializeMediaQueue() {
-        guard let sourceURL = URL(string: "file://\(sourcePath)") else {
+        guard !sourcePath.isEmpty else {
             alertMessage = "Invalid source folder path."
             showAlert = true
             return
         }
 
+        let sourceURL = URL(fileURLWithPath: sourcePath)
         let result = mediaService.scanMedia(sourceURL: sourceURL, recursive: true)
         mediaFiles = result.mediaFiles
         unsupportedFiles = result.unsupportedFiles
